@@ -6,16 +6,23 @@ class CustomElevatedButton extends StatelessWidget {
       {super.key,
       required this.text,
       required this.onPressed,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.paddingHorizontal,
+      this.paddingVertical});
   final String text;
   final void Function() onPressed;
   final bool isLoading;
+  final double? paddingHorizontal;
+  final double? paddingVertical;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            textStyle: TextStyle(color: Colors.white, fontSize: 24),
+            padding: EdgeInsets.symmetric(
+                horizontal: paddingHorizontal ?? 0,
+                vertical: paddingVertical ?? 0),
+            textStyle: TextStyle(color: Colors.white, fontSize: 18),
             backgroundColor: AppColors.primaryColor,
             minimumSize: Size(double.infinity, 50)),
         onPressed: onPressed,

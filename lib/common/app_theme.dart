@@ -99,6 +99,19 @@ class AppTheme {
         foregroundColor: Colors.white,
         shape: CircleBorder(),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color.fromRGBO(249, 250, 252, 1),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide.none,
+        ),
+        hintStyle: const TextStyle(
+          color: Color.fromRGBO(151, 151, 151, 1),
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
 
       // Color scheme
       useMaterial3: true,
@@ -131,6 +144,20 @@ class AppTheme {
       backgroundColor: AppColors.primaryColor,
       foregroundColor: Colors.white,
       shape: CircleBorder(),
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: const Color.fromRGBO(40, 40, 40, 1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(22),
+        borderSide: BorderSide.none,
+      ),
+      hintStyle: const TextStyle(
+        color: Color.fromRGBO(200, 200, 200, 1),
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+      ),
     ),
 
     // Color scheme

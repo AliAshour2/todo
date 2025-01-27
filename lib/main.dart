@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:todo/common/app_theme.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/providers/tasks_provider.dart';
+import 'package:todo/screens/auth/log_in_screen.dart';
+import 'package:todo/screens/auth/sign_up_screen.dart';
 import 'package:todo/screens/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -32,8 +34,10 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
+        SignUpScreen.routeName: (context) => const SignUpScreen(),
+        LogInScreen.routeName: (context) => const LogInScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SignUpScreen.routeName,
     );
   }
 }
