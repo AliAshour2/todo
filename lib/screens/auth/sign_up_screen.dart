@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/auth/models/user_data_model.dart';
 import 'package:todo/common/app_images.dart';
 import 'package:todo/common/widgets/custom_auth_text_field.dart';
 import 'package:todo/common/app_colors.dart';
 import 'package:todo/common/widgets/custom_elevated_button.dart';
+import 'package:todo/providers/auth_provider.dart';
 import 'package:todo/screens/auth/log_in_screen.dart';
 import 'package:todo/screens/auth/validators.dart';
 
@@ -15,10 +18,10 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,20 +70,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: CustomElevatedButton(
                     text: "Sign Up",
-                    onPressed: () {
+                    isLoading: Provider.of<TodoAuthProvider>(context).loading,
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        print("validated");
+                        Provider.of<TodoAuthProvider>(context, listen: false)
+                            .signUp(UserDataModel(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ));
+                      }
+                      if (Provider.of<TodoAuthProvider>(context, listen: false)
+                              .user !=
+                          null) {
+                        Navigator.of(context)
+                            .pushReplacementNamed(LogInScreen.routeName);
                       }
                     },
-                    paddingHorizontal: 18,
-                    paddingVertical: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: CustomElevatedButton(
-                    text: "Log In",
-                    onPressed: () {},
                     paddingHorizontal: 18,
                     paddingVertical: 18,
                   ),

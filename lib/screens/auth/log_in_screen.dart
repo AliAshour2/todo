@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/common/app_images.dart';
 import 'package:todo/common/widgets/custom_auth_text_field.dart';
 import 'package:todo/common/app_colors.dart';
 import 'package:todo/common/widgets/custom_elevated_button.dart';
+import 'package:todo/providers/auth_provider.dart';
+import 'package:todo/providers/tasks_provider.dart';
 import 'package:todo/screens/auth/sign_up_screen.dart';
 import 'package:todo/screens/auth/validators.dart';
+import 'package:todo/screens/home/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -15,9 +19,9 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +68,29 @@ class _LogInScreenState extends State<LogInScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: CustomElevatedButton(
+                  isLoading: Provider.of<TodoAuthProvider>(context).loading,
                   text: "Log In",
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      print("validated");
+                      // Store context and providers before async operation
+                      final navigator = Navigator.of(context);
+                      final authProvider =
+                          Provider.of<TodoAuthProvider>(context, listen: false);
+                      final tasksProvider =
+                          Provider.of<TasksProvider>(context, listen: false);
+
+                      // Perform async operations
+                      await authProvider.login(
+                          _emailController.text, _passwordController.text);
+
+                      // Check if widget is still mounted before continuing
+                      if (!mounted) return;
+
+                      await tasksProvider.getTasksByDate();
+
+                      // Navigate only if still mounted
+                      if (!mounted) return;
+                      navigator.pushReplacementNamed(HomeScreen.routeName);
                     }
                   },
                   paddingHorizontal: 18,
@@ -88,7 +111,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignUpScreen.routeName);
                     },
                     child: const Text(
                       "Sign Up",

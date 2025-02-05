@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/common/app_theme.dart';
 import 'package:todo/firebase_options.dart';
+import 'package:todo/providers/auth_provider.dart';
 import 'package:todo/providers/tasks_provider.dart';
 import 'package:todo/screens/auth/log_in_screen.dart';
 import 'package:todo/screens/auth/sign_up_screen.dart';
@@ -16,8 +17,11 @@ Future<void> main() async {
   // FirebaseFirestore.instance.disableNetwork();
   // FirebaseFirestore.instance.settings =
   //     const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  runApp(ChangeNotifierProvider(
-    create: (context) => TasksProvider()..getTasksByDate(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => TasksProvider()),
+      ChangeNotifierProvider(create: (context) => TodoAuthProvider()),
+    ],
     child: const MyApp(),
   ));
 }
