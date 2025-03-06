@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/common/app_theme.dart';
@@ -41,7 +42,9 @@ class MyApp extends StatelessWidget {
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         LogInScreen.routeName: (context) => const LogInScreen(),
       },
-      initialRoute: SignUpScreen.routeName,
+      initialRoute: FirebaseAuth.instance.currentUser?.uid == null
+          ? SignUpScreen.routeName
+          : HomeScreen.routeName,
     );
   }
 }
