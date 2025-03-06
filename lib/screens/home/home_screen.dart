@@ -93,6 +93,12 @@ class _HomeScreenState extends State<HomeScreen> {
           : () {
               showModalBottomSheet(
                   context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
                   builder: (context) {
                     return ButtomSheet();
                   });
