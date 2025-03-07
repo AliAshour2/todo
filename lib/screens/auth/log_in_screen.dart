@@ -75,20 +75,29 @@ class _LogInScreenState extends State<LogInScreen> {
                       if (_formKey.currentState!.validate()) {
                         // Store context and providers before async operation
                         final navigator = Navigator.of(context);
-                        final authProvider =
-                            Provider.of<TodoAuthProvider>(context, listen: false);
+                        final authProvider = Provider.of<TodoAuthProvider>(
+                            context,
+                            listen: false);
                         final tasksProvider =
                             Provider.of<TasksProvider>(context, listen: false);
-        
+
                         // Perform async operations
-                        await authProvider.login(
+                        final success = await authProvider.login(
                             _emailController.text, _passwordController.text);
-        
+
                         // Check if widget is still mounted before continuing
-                        if (!mounted) return;
-        
+                        // if (!mounted) return;
+
+                        if (success && mounted) {
+                          await tasksProvider.getTasksByDate();
+                          if (mounted) {
+                            navigator
+                                .pushReplacementNamed(HomeScreen.routeName);
+                          }
+                        }
+
                         await tasksProvider.getTasksByDate();
-        
+
                         // Navigate only if still mounted
                         if (!mounted) return;
                         navigator.pushReplacementNamed(HomeScreen.routeName);
