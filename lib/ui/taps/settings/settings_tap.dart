@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/providers/auth_provider.dart';
 import 'package:todo/providers/tasks_provider.dart';
+import 'package:todo/providers/theme_provider.dart';
 import 'package:todo/screens/auth/sign_up_screen.dart';
 
 class SettingsTap extends StatelessWidget {
@@ -9,6 +10,7 @@ class SettingsTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -20,11 +22,12 @@ class SettingsTap extends StatelessWidget {
           Card(
             child: SwitchListTile(
               title: const Text('Dark Mode'),
-              value: false, // Implement theme change logic here
+              value: themeProvider.isDark, // Bind to the current theme mode
               onChanged: (bool value) {
-                // Implement theme change logic here
-                // For example, you can use a state management solution like Provider
-                // to toggle between light and dark themes.
+                // Update the theme mode based on the switch value
+                themeProvider.changeThemeMode(
+                  value ? ThemeMode.dark : ThemeMode.light,
+                );
               },
               secondary: const Icon(Icons.brightness_6),
             ),
@@ -60,7 +63,9 @@ class SettingsTap extends StatelessWidget {
               title: const Text('Logout'),
               onTap: () {
                 Provider.of<TodoAuthProvider>(context, listen: false).logout();
-                Provider.of<TasksProvider>(context, listen: false).tasks.clear();
+                Provider.of<TasksProvider>(context, listen: false)
+                    .tasks
+                    .clear();
                 Navigator.popAndPushNamed(context, SignUpScreen.routeName);
               },
             ),

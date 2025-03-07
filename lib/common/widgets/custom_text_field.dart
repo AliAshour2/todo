@@ -19,18 +19,23 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      maxLines: maxLines,
-      validator: validator,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge!
-          .copyWith(color: AppColors.textBlack, fontWeight: FontWeight.w500),
-      decoration: InputDecoration(
+        controller: controller,
+        maxLines: maxLines,
+        validator: validator,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface, // Use theme-based text color
+              fontWeight: FontWeight.w500,
+            ),
+        decoration: InputDecoration(
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 0)),
           hintText: hintText,
-          hintStyle: TextStyle()),
-    );
+          hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color:
+                    Theme.of(context).hintColor, // Use theme-based hint color
+              ),
+        ));
   }
 }

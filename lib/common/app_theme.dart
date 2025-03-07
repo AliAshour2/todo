@@ -1,3 +1,4 @@
+// 
 import 'package:flutter/material.dart';
 import 'package:todo/common/app_colors.dart';
 
@@ -120,8 +121,80 @@ class AppTheme {
   // 🌔Dark theme🌙
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.bgDarkColor,
+    
 
-    //  app bar theme
+    //  Text theme
+    primaryTextTheme: TextTheme(
+      titleLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      titleMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
+      bodyMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      bodySmall: TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      titleMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.grey[400],
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyLarge: TextStyle(
+        color: Colors.grey[400],
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
+      bodyMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      bodySmall: TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
+      labelSmall: TextStyle(
+        color: Colors.grey[400],
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+
+    // App bar theme
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -129,11 +202,11 @@ class AppTheme {
     ),
 
     // Bottom navigation bar theme
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Color(0xFF1C1C1C),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: const Color(0xFF1C1C1C),
       selectedItemColor: AppColors.primaryColor,
-      unselectedItemColor: Colors.white,
-      unselectedIconTheme: IconThemeData(color: Colors.white, size: 30),
+      unselectedItemColor: Colors.grey[400],
+      unselectedIconTheme: IconThemeData(color: Colors.grey[400], size: 30),
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: false,
       showUnselectedLabels: false,
@@ -153,8 +226,8 @@ class AppTheme {
         borderRadius: BorderRadius.circular(22),
         borderSide: BorderSide.none,
       ),
-      hintStyle: const TextStyle(
-        color: Color.fromRGBO(200, 200, 200, 1),
+      hintStyle: TextStyle(
+        color: Colors.grey[400],
         fontSize: 15,
         fontWeight: FontWeight.w500,
       ),
@@ -162,6 +235,9 @@ class AppTheme {
 
     // Color scheme
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primaryColor,
+      brightness: Brightness.dark,
+    ),
   );
 }

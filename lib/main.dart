@@ -5,6 +5,7 @@ import 'package:todo/common/app_theme.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/providers/auth_provider.dart';
 import 'package:todo/providers/tasks_provider.dart';
+import 'package:todo/providers/theme_provider.dart';
 import 'package:todo/screens/auth/log_in_screen.dart';
 import 'package:todo/screens/auth/sign_up_screen.dart';
 import 'package:todo/screens/home/home_screen.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => TasksProvider()),
       ChangeNotifierProvider(create: (context) => TodoAuthProvider()),
+      ChangeNotifierProvider(create: (context) => ThemeProvider())
     ],
     child: const MyApp(),
   ));
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
       title: 'Todo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: Provider.of<ThemeProvider>(context).appThemeMode,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
