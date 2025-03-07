@@ -1,16 +1,99 @@
-# todo
+# 📝 Todo App 
+A modern todo application built with Flutter and Firebase, featuring authentication and dark/light theme support.
 
-A new Flutter project.
+## ✨ Features
+- 🔐 User Authentication (Login/Signup)
+- 📱 Beautiful Material Design UI
+- 🌓 Dark/Light Theme Support
+- 📅 Calendar View for Tasks
+- ✅ Task Management (Add, Delete, Update)
+- 🔄 Real-time Data Sync with Firebase
+- 📊 Task Progress Tracking
 
-## Getting Started
+## 🛠️ Tech Stack
+- Flutter
+- Firebase Authentication
+- Cloud Firestore
+- Provider State Management
+- Material Design 3
 
-This project is a starting point for a Flutter application.
+## 📁 Project Structure
+```
+lib/
+├── common/
+│   ├── app_colors.dart
+│   ├── app_theme.dart
+│   └── remote/
+│       └── firebase_services.dart
+├── providers/
+│   ├── auth_provider.dart
+│   ├── tasks_provider.dart
+│   └── theme_provider.dart
+├── screens/
+│   ├── auth/
+│   │   ├── log_in_screen.dart
+│   │   └── sign_up_screen.dart
+│   └── home/
+│       └── home_screen.dart
+├── ui/
+│   ├── taps/
+│   │   └── tasks/
+│   │       ├── list_tap.dart
+│   │       └── models/
+│   │           └── task_model.dart
+│   └── widgets/
+│       ├── custom_auth_text_field.dart
+│       ├── custom_elevated_button.dart
+│       └── task_card.dart
+└── main.dart
+```
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Getting Started
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Prerequisites
+- Flutter SDK
+- Firebase Account
+- Android Studio/VS Code
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔧 Installation
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/todo.git
+```
+
+2. Install dependencies
+```bash
+flutter pub get
+```
+
+3. Configure Firebase
+- Add your `google-services.json` for Android
+- Add your `GoogleService-Info.plist` for iOS
+
+4. Run the app
+```bash
+flutter run
+```
+
+## 📱 Screenshots
+<div align="center">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(3).jpeg" width="100" style="display: inline-block; margin: 5px;">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(4).jpeg" width="100" style="display: inline-block; margin: 5px;">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(2).jpeg" width="100" style="display: inline-block; margin: 5px;">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(1).jpeg" width="100" style="display: inline-block; margin: 5px;">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(5).jpeg" width="100" style="display: inline-block; margin: 5px;">
+    <img src="https://github.com/AliAshour2/todo/blob/main/assets/gitImages/app%20(6).jpeg" width="100" style="display: inline-block; margin: 5px;">
+</div>
+
+ 
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## 🥽 Author
+Your Name
+- GitHub: [@aliashour]([https://github.com/yourusername](https://github.com/AliAshour2))
+- LinkedIn: [Ali Ashour]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/ali-ashour-812a34229/))
+
