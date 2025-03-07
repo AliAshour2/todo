@@ -25,155 +25,157 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Column(
-            spacing: 4.0,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 50),
-              Image.asset(AppImages.logo, height: 200),
-              SizedBox(height: 50),
-              CustomAuthTextField(
-                controller: _emailController,
-                prefixIcon: const Icon(
-                  Icons.mail_outline_rounded,
-                  color: AppColors.textBlack,
-                ),
-                hintText: "Enter your Email",
-                keyboardType: TextInputType.emailAddress,
-                validator: (p0) => emailValidator(p0),
-              ),
-              CustomAuthTextField(
-                controller: _passwordController,
-                prefixIcon: const Icon(
-                  Icons.lock_outline_rounded,
-                  color: AppColors.textBlack,
-                ),
-                hintText: "Enter Your Password",
-                obscureText: true,
-                validator: (p0) => passwordValidator(p0),
-              ),
-              InkWell(
-                onTap: () {},
-                child: const Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+              spacing: 4.0,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 50),
+                Image.asset(AppImages.logo, height: 200),
+                SizedBox(height: 50),
+                CustomAuthTextField(
+                  controller: _emailController,
+                  prefixIcon: const Icon(
+                    Icons.mail_outline_rounded,
+                    color: AppColors.textBlack,
                   ),
+                  hintText: "Enter your Email",
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (p0) => emailValidator(p0),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: CustomElevatedButton(
-                  isLoading: Provider.of<TodoAuthProvider>(context).loading,
-                  text: "Log In",
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Store context and providers before async operation
-                      final navigator = Navigator.of(context);
-                      final authProvider =
-                          Provider.of<TodoAuthProvider>(context, listen: false);
-                      final tasksProvider =
-                          Provider.of<TasksProvider>(context, listen: false);
-
-                      // Perform async operations
-                      await authProvider.login(
-                          _emailController.text, _passwordController.text);
-
-                      // Check if widget is still mounted before continuing
-                      if (!mounted) return;
-
-                      await tasksProvider.getTasksByDate();
-
-                      // Navigate only if still mounted
-                      if (!mounted) return;
-                      navigator.pushReplacementNamed(HomeScreen.routeName);
-                    }
-                  },
-                  paddingHorizontal: 18,
-                  paddingVertical: 18,
+                CustomAuthTextField(
+                  controller: _passwordController,
+                  prefixIcon: const Icon(
+                    Icons.lock_outline_rounded,
+                    color: AppColors.textBlack,
+                  ),
+                  hintText: "Enter Your Password",
+                  obscureText: true,
+                  validator: (p0) => passwordValidator(p0),
                 ),
-              ),
-              SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account? ",
+                InkWell(
+                  onTap: () {},
+                  child: const Text(
+                    "Forgot Password?",
                     style: TextStyle(
-                      color: AppColors.primaryTextLightColor,
+                      color: AppColors.primaryColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SignUpScreen.routeName);
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: CustomElevatedButton(
+                    isLoading: Provider.of<TodoAuthProvider>(context).loading,
+                    text: "Log In",
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // Store context and providers before async operation
+                        final navigator = Navigator.of(context);
+                        final authProvider =
+                            Provider.of<TodoAuthProvider>(context, listen: false);
+                        final tasksProvider =
+                            Provider.of<TasksProvider>(context, listen: false);
+        
+                        // Perform async operations
+                        await authProvider.login(
+                            _emailController.text, _passwordController.text);
+        
+                        // Check if widget is still mounted before continuing
+                        if (!mounted) return;
+        
+                        await tasksProvider.getTasksByDate();
+        
+                        // Navigate only if still mounted
+                        if (!mounted) return;
+                        navigator.pushReplacementNamed(HomeScreen.routeName);
+                      }
                     },
-                    child: const Text(
-                      "Sign Up",
+                    paddingHorizontal: 18,
+                    paddingVertical: 18,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
                       style: TextStyle(
-                        color: AppColors.primaryColor,
+                        color: AppColors.primaryTextLightColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 12),
-              const Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      color: AppColors.textGrayColor,
-                      thickness: 1,
-                      indent: 120,
-                      endIndent: 8,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      "Or",
-                      style: TextStyle(
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(SignUpScreen.routeName);
+                      },
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 12),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
                         color: AppColors.textGrayColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        thickness: 1,
+                        indent: 120,
+                        endIndent: 8,
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: AppColors.textGrayColor,
-                      thickness: 1,
-                      indent: 8,
-                      endIndent: 120,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "Or",
+                        style: TextStyle(
+                          color: AppColors.textGrayColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.facebook_rounded,
-                      )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.apple_rounded,
-                      )),
-                ],
-              )
-            ]),
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.textGrayColor,
+                        thickness: 1,
+                        indent: 8,
+                        endIndent: 120,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.facebook_rounded,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.apple_rounded,
+                        )),
+                  ],
+                )
+              ]),
+        ),
       ),
     );
   }
