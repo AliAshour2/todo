@@ -93,7 +93,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## 🥽 Author
-Your Name
-- GitHub: [@aliashour]([https://github.com/yourusername](https://github.com/AliAshour2))
-- LinkedIn: [Ali Ashour]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/ali-ashour-812a34229/))
+Ali Ashour
+- GitHub: [@aliashour](https://github.com/AliAshour2)
+- LinkedIn: [Ali Ashour](https://www.linkedin.com/in/ali-ashour-812a34229/)
 
