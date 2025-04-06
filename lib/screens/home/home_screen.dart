@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/common/app_colors.dart';
 import 'package:todo/common/app_theme.dart';
 import 'package:todo/providers/tasks_provider.dart';
+import 'package:todo/providers/theme_provider.dart';
 import 'package:todo/ui/taps/settings/settings_tap.dart';
 import 'package:todo/ui/taps/tasks/list_tap.dart';
 import 'package:todo/ui/widgets/buttom_sheet.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,12 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Provider.of<ThemeProvider>(context).isDark;
+
     return Scaffold(
       appBar: buildAppBar(),
-      bottomNavigationBar: buildBottomNavBar(),
+      bottomNavigationBar: buildCurvedBottomNavBar(isDark),
       floatingActionButton: buildFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: tapsList[currentTapIndex],
+      body: tapsList[currentTapIndex]
+          .animate()
+          .fadeIn(duration: const Duration(milliseconds: 350)),
     );
   }
 
@@ -51,43 +59,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  BottomAppBar buildBottomNavBar() {
-    return BottomAppBar(
-      padding: EdgeInsets.zero,
-      notchMargin: 10.0,
-      shape: const CircularNotchedRectangle(),
-      clipBehavior: Clip.hardEdge,
-      child: BottomNavigationBar(
-        currentIndex: currentTapIndex,
-        onTap: (value) {
-          setState(() {
-            currentTapIndex = value;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
-          ),
-        ],
-      ),
+  CurvedNavigationBar buildCurvedBottomNavBar(bool isDark) {
+    return CurvedNavigationBar(
+      backgroundColor: Colors.transparent,
+      color: isDark ? const Color(0xFF1C1C1C) : Colors.white,
+      buttonBackgroundColor: AppColors.primaryColor,
+      height: 60,
+      animationDuration: const Duration(milliseconds: 300),
+      items: const [
+        Icon(Icons.home_outlined, size: 30),
+        Icon(Icons.settings_outlined, size: 30),
+      ],
+      index: currentTapIndex,
+      onTap: (index) {
+        setState(() {
+          currentTapIndex = index;
+        });
+      },
     );
   }
 
-  FloatingActionButton buildFab() {
+  Widget buildFab() {
+    final tasksProvider = Provider.of<TasksProvider>(context);
+    final bool isDisabled = tasksProvider.selectedDate
+        .isBefore(DateTime.now().subtract(Duration(days: 1)));
+
     return FloatingActionButton(
-      backgroundColor: Provider.of<TasksProvider>(context)
-              .selectedDate
-              .isBefore(DateTime.now().subtract(Duration(days: 1)))
-          ? Colors.grey
-          : null,
-      onPressed: Provider.of<TasksProvider>(context)
-              .selectedDate
-              .isBefore(DateTime.now().subtract(Duration(days: 1)))
+      backgroundColor: isDisabled ? Colors.grey : AppColors.primaryColor,
+      onPressed: isDisabled
           ? null
           : () {
               showModalBottomSheet(
@@ -105,7 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: const Icon(
         Icons.add,
         size: 30.0,
+        color: Colors.white,
       ),
-    );
+    ).animate().scale(
+        duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 }

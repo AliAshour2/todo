@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:todo/common/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      this.hintText,
-      required this.controller,
-      this.maxLines,
-      required this.validator,
-      this.borderRadius});
+  const CustomTextField({
+    super.key,
+    this.hintText,
+    required this.controller,
+    this.maxLines,
+    required this.validator,
+    this.borderRadius,
+    this.prefixIcon,
+  });
 
   final String? hintText;
   final TextEditingController? controller;
   final int? maxLines;
   final double? borderRadius;
   final String? Function(String?)? validator;
+  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,7 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 0)),
           hintText: hintText,
+          prefixIcon: prefixIcon,
           hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color:
                     Theme.of(context).hintColor, // Use theme-based hint color
