@@ -9,13 +9,17 @@ class TasksProvider with ChangeNotifier {
   DateTime selectedDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   Future<List<TaskModel>>? _tasksFuture;
+  bool _loading = false;
 
-  Future<List<TaskModel>> getTasksByDate() async {
-    _tasksFuture ??= _fetchTasks();
-    return _tasksFuture!;
+  bool get loading => _loading;
+
+  void setLoading(bool value) {
+    _loading = value;
+    notifyListeners();
   }
 
-  Future<List<TaskModel>> _fetchTasks() async {
+  Future<List<TaskModel>> getTasksByDate() async {
+    setLoading(true);
     try {
       tasks = await FirebaseServices.getTasksByDate(selectedDate);
       notifyListeners();
@@ -26,15 +30,34 @@ class TasksProvider with ChangeNotifier {
           backgroundColor: Colors.red,
           textColor: Colors.white);
       return [];
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<List<TaskModel>> _fetchTasks() async {
+    setLoading(true);
+    try {
+      tasks = await FirebaseServices.getTasksByDate(selectedDate);
+      notifyListeners();
+      return tasks;
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+      return [];
+    } finally {
+      setLoading(false);
     }
   }
 
   Future<void> addTask(TaskModel task) async {
+    setLoading(true);
     try {
       await FirebaseServices.addTask(task);
       // Fetch the updated tasks immediately
       tasks = await FirebaseServices.getTasksByDate(selectedDate);
-      _tasksFuture = Future.value(tasks); // Update the cached future
       notifyListeners();
     } on Exception catch (e) {
       Fluttertoast.showToast(
@@ -45,14 +68,16 @@ class TasksProvider with ChangeNotifier {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+    } finally {
+      setLoading(false);
     }
   }
 
   Future<void> deleteTask(TaskModel taskId) async {
+    setLoading(true);
     try {
       await FirebaseServices.deleteTask(taskId);
       tasks = await FirebaseServices.getTasksByDate(selectedDate);
-      _tasksFuture = Future.value(tasks);
       notifyListeners();
 
       Fluttertoast.showToast(
@@ -72,17 +97,34 @@ class TasksProvider with ChangeNotifier {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+    } finally {
+      setLoading(false);
     }
   }
 
   void changeSelectedDate(DateTime newDate) {
     selectedDate = newDate;
-    _tasksFuture = _fetchTasks();
-    notifyListeners();
+    getTasksByDate();
   }
 
   void updateTaskCompletion(TaskModel task) async {
-    await FirebaseServices.toggleTaskCompletion(task);
-    notifyListeners();
+    try {
+      task.isDone = !task.isDone;
+      await FirebaseServices.toggleTaskCompletion(task);
+      
+      // Update task in the local list
+      final index = tasks.indexWhere((t) => t.id == task.id);
+      if (index != -1) {
+        tasks[index] = task;
+        notifyListeners();
+      }
+    } catch (e) {
+      // If error occurs, revert the change
+      task.isDone = !task.isDone;
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    }
   }
 }

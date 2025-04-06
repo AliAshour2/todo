@@ -14,13 +14,11 @@ class ListTap extends StatefulWidget {
 }
 
 class _ListTapState extends State<ListTap> {
-  late Future<List<TaskModel>> _tasksFuture;
-
   @override
   void initState() {
     super.initState();
-    _tasksFuture =
-        Provider.of<TasksProvider>(context, listen: false).getTasksByDate();
+    // Initialize task fetch but don't store the future
+    Provider.of<TasksProvider>(context, listen: false).getTasksByDate();
   }
 
   @override
@@ -63,35 +61,27 @@ class _ListTapState extends State<ListTap> {
             ),
             onDateChange: (date) {
               provider.changeSelectedDate(date);
-              setState(() {
-                _tasksFuture = provider.getTasksByDate();
-              });
             },
           ),
         ),
         Expanded(
-          child: FutureBuilder<List<TaskModel>>(
-            future: _tasksFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          child: Consumer<TasksProvider>(
+            builder: (context, taskProvider, child) {
+              if (taskProvider.loading) {
                 return const Center(child: CircularProgressIndicator());
               }
-
-              if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              }
-
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              
+              if (taskProvider.tasks.isEmpty) {
                 return const Center(child: Text('No tasks available'));
               }
 
               return ListView.builder(
                 itemBuilder: (context, index) {
                   return TaskCard(
-                    taskModel: snapshot.data![index],
+                    taskModel: taskProvider.tasks[index],
                   );
                 },
-                itemCount: snapshot.data!.length,
+                itemCount: taskProvider.tasks.length,
               );
             },
           ),

@@ -46,9 +46,9 @@ class MyApp extends StatelessWidget {
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         LogInScreen.routeName: (context) => const LogInScreen(),
       },
-      initialRoute: FirebaseAuth.instance.currentUser?.uid == null
-          ? SignUpScreen.routeName
-          : HomeScreen.routeName,
+      initialRoute: FirebaseAuth.instance.currentUser != null
+          ? HomeScreen.routeName
+          : SignUpScreen.routeName,
     );
   }
 }

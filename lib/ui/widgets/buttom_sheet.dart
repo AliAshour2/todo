@@ -111,7 +111,6 @@ class _ButtomSheetState extends State<ButtomSheet> {
                     setState(() => isLoading = true);
                     await provider.addTask(task);
                     if (mounted) Navigator.of(context).pop();
-                    setState(() => isLoading = false);
                   }
                 },
                 text: "Add",

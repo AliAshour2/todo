@@ -51,8 +51,7 @@ class FirebaseServices {
 
   static Future<void> toggleTaskCompletion(TaskModel task) async {
     CollectionReference<TaskModel> taskCollection = getTasksCollection();
-    task.isDone = !task.isDone;
-    taskCollection.doc(task.id).update(task.toJson());
+    await taskCollection.doc(task.id).update({'isDone': task.isDone});
   }
 
   static Future login(String email, String password) async {
